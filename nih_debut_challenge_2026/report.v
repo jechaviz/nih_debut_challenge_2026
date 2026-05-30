@@ -28,11 +28,16 @@ pub fn readiness_report(version string, summary EvaluationSummary) ReadinessRepo
 		version:      version
 		status:       'ready_for_undergraduate_team_submission'
 		checks:       {
-			'synthetic_cases': summary.case_count.str()
-			'case_pass_rate':  '${summary.pass_rate}%'
-			'clinical_scope':  'CKD triage, not autonomous diagnosis'
-			'privacy':         'synthetic only, no PHI'
-			'section_508':     'web demo designed for keyboard and readable contrast'
+			'synthetic_cases':   summary.case_count.str()
+			'case_pass_rate':    '${summary.pass_rate}%'
+			'judge_score':       judge_scorecard(summary, summarize_impact(default_impact_model())).total.str()
+			'competitive_label': competitive_readiness_label(judge_scorecard(summary,
+				summarize_impact(default_impact_model())).total)
+			'niddk_fit':         '${default_impact_model().niddk_fit}%'
+			'low_resource_fit':  '${default_impact_model().low_resource_fit}%'
+			'clinical_scope':    'CKD triage, not autonomous diagnosis'
+			'privacy':           'synthetic only, no PHI'
+			'section_508':       'web demo designed for keyboard and readable contrast'
 		}
 		blockers:     [
 			'Eligible 3-8 undergraduate student team must own final submission.',
@@ -43,6 +48,8 @@ pub fn readiness_report(version string, summary EvaluationSummary) ReadinessRepo
 			'data/synthetic_cases.csv',
 			'evidence/readiness_report_v.json',
 			'evidence/case_results_v.json',
+			'evidence/impact_model_v.json',
+			'evidence/judge_scorecard_v.json',
 			'submission/generated/nih_submission_manifest.json',
 		]
 	}

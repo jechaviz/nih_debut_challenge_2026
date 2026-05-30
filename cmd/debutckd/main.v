@@ -11,7 +11,7 @@ import time
 const default_worth_it = 'C:/git/v_projects/contests/worth_it/nih_debut_challenge_2026'
 const default_site = 'C:/git/websites/nih_debut_challenge_2026'
 const default_port = 4286
-const product_version = '0.4.0'
+const product_version = '0.5.0'
 
 struct StaticHandler {
 	site_root string
@@ -56,6 +56,8 @@ fn run_generate(args []string) int {
 	site := flag_value(args, '--site', default_site)
 	cases := core.synthetic_cases()
 	summary := core.evaluate_cases(cases)
+	impact := core.summarize_impact(core.default_impact_model())
+	scorecard := core.judge_scorecard(summary, impact)
 	readiness := core.readiness_report(product_version, summary)
 	ensure_dirs([
 		os.join_path(worth_it, 'data'),
@@ -72,6 +74,12 @@ fn run_generate(args []string) int {
 	write_json(os.join_path(worth_it, 'evidence', 'readiness_report_v.json'), readiness) or {
 		return fail(err.msg())
 	}
+	write_json(os.join_path(worth_it, 'evidence', 'impact_model_v.json'), impact) or {
+		return fail(err.msg())
+	}
+	write_json(os.join_path(worth_it, 'evidence', 'judge_scorecard_v.json'), scorecard) or {
+		return fail(err.msg())
+	}
 	write_json(os.join_path(worth_it, 'submission', 'generated', 'nih_submission_manifest.json'),
 		core.manifest_payload(product_version)) or { return fail(err.msg()) }
 	write_json(os.join_path(worth_it, 'submission', 'generated',
@@ -85,6 +93,12 @@ fn run_generate(args []string) int {
 		return fail(err.msg())
 	}
 	write_json(os.join_path(site, 'src', 'data', 'readiness_report.json'), readiness) or {
+		return fail(err.msg())
+	}
+	write_json(os.join_path(site, 'src', 'data', 'impact_model.json'), impact) or {
+		return fail(err.msg())
+	}
+	write_json(os.join_path(site, 'src', 'data', 'judge_scorecard.json'), scorecard) or {
 		return fail(err.msg())
 	}
 	println('generated RenalCue synthetic data, evidence and submission artifacts')
