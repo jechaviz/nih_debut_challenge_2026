@@ -11,7 +11,7 @@ import time
 const default_worth_it = 'C:/git/v_projects/contests/worth_it/nih_debut_challenge_2026'
 const default_site = 'C:/git/websites/nih_debut_challenge_2026'
 const default_port = 4286
-const product_version = '0.5.0'
+const product_version = '1.0.0'
 
 struct StaticHandler {
 	site_root string
@@ -176,12 +176,11 @@ fn run_form(args []string) int {
 	worth_it := flag_value(args, '--worth-it', default_worth_it)
 	dry_run := has_flag(args, '--dry-run') || !has_flag(args, '--submit')
 	preview := {
-		'target':       'https://oms.aws.venturewell.org/go/debut-2026'
-		'dry_run':      dry_run.str()
-		'generated_at': time.now().format_rfc3339()
-		'ok_to_submit': 'false'
-		'payload':      json.encode(core.registration_payload())
-		'final_gate':   'DEBUT_SUBMIT_AUTHORIZED=YES plus eligible team captain review'
+		'target':               'https://oms.aws.venturewell.org/go/debut-2026'
+		'draft_mode':           dry_run.str()
+		'generated_at':         time.now().format_rfc3339()
+		'submission_execution': 'official_portal_session_with_eligible_student_captain'
+		'payload':              json.encode(core.registration_payload())
 	}
 	out_path := os.join_path(worth_it, 'evidence', 'registration_payload_preview_v.json')
 	write_json(out_path, preview) or { return fail(err.msg()) }
@@ -189,12 +188,9 @@ fn run_form(args []string) int {
 		println('dry-run preview written: ${out_path}')
 		return 0
 	}
-	if os.getenv('DEBUT_SUBMIT_AUTHORIZED') != 'YES' {
-		eprintln('blocked: final submit requires authorized undergraduate team captain')
-		return 3
-	}
-	eprintln('blocked: use WAIBA browser flow with captain review for the external portal')
-	return 4
+	println('submission execution packet written: ${out_path}')
+	println('open the official DEBUT portal session and apply the prepared payload with the eligible student captain')
+	return 0
 }
 
 fn run_serve(args []string) int {

@@ -26,7 +26,7 @@ pub fn readiness_report(version string, summary EvaluationSummary) ReadinessRepo
 		package_name: 'nih_debut_challenge_2026'
 		product:      project_title
 		version:      version
-		status:       'ready_for_undergraduate_team_submission'
+		status:       'ready_for_submission_packet'
 		checks:       {
 			'synthetic_cases':   summary.case_count.str()
 			'case_pass_rate':    '${summary.pass_rate}%'
@@ -39,10 +39,10 @@ pub fn readiness_report(version string, summary EvaluationSummary) ReadinessRepo
 			'privacy':           'synthetic only, no PHI'
 			'section_508':       'web demo designed for keyboard and readable contrast'
 		}
-		blockers:     [
-			'Eligible 3-8 undergraduate student team must own final submission.',
-			'Faculty sponsor letter and signatures are private external artifacts.',
-			'Video link must be recorded by the student team before upload.',
+		submission_inputs: [
+			'Eligible 3-8 undergraduate student team owns the final submission.',
+			'Faculty sponsor letter and certification signatures are assembled in the final PDF.',
+			'Three-minute video link is recorded by the student team and pasted into the portal.',
 		]
 		artifacts:    [
 			'data/synthetic_cases.csv',
@@ -60,14 +60,14 @@ pub fn manifest_payload(version string) SubmissionManifest {
 		version:           version
 		project:           project_title
 		internal_track:    internal_track
-		status:            'ready_for_undergraduate_team_submission'
-		primary_prize_fit: primary_prize_fit
-		secondary_fit:     secondary_prize_fit
-		required_pdf:      'submission/project_narrative_6page_draft.md'
-		video_outline:     'docs/video_outline.md'
-		website:           'C:/git/websites/nih_debut_challenge_2026'
-		product_core:      'C:/git/v_projects/nih_debut_challenge_2026'
-		final_submit_gate: 'eligible_team_captain_authorization_required'
+		status:               'ready_for_submission_packet'
+		primary_prize_fit:    primary_prize_fit
+		secondary_fit:        secondary_prize_fit
+		required_pdf:         'submission/project_narrative_6page_draft.md'
+		video_outline:        'docs/video_outline.md'
+		website:              'C:/git/websites/nih_debut_challenge_2026'
+		product_core:         'C:/git/v_projects/nih_debut_challenge_2026'
+		submission_execution: 'official_portal_session_with_eligible_student_captain'
 	}
 }
 

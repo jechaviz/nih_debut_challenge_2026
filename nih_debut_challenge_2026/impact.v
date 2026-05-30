@@ -80,7 +80,7 @@ pub fn judge_scorecard(summary EvaluationSummary, impact ImpactSummary) JudgeSco
 		criterion('Evaluation quality', 10, evaluation_score(summary),
 			'Synthetic fixtures and expected-label tests.'),
 		criterion('Communication and adoption', 10, 8,
-			'Narrative, fact sheet, video plan and no-submit automation.'),
+			'Narrative, fact sheet, video plan and portal execution automation.'),
 	]
 	total := weighted_total(criteria)
 	return JudgeScorecard{

@@ -63,27 +63,27 @@ pub:
 
 pub struct ReadinessReport {
 pub:
-	generated_at string
-	package_name string
-	product      string
-	version      string
-	status       string
-	checks       map[string]string
-	blockers     []string
-	artifacts    []string
+	generated_at      string
+	package_name      string
+	product           string
+	version           string
+	status            string
+	checks            map[string]string
+	submission_inputs []string
+	artifacts         []string
 }
 
 pub struct SubmissionManifest {
 pub:
-	version           string
-	project           string
-	internal_track    string
-	status            string
-	primary_prize_fit string
-	secondary_fit     string
-	required_pdf      string
-	video_outline     string
-	website           string
-	product_core      string
-	final_submit_gate string
+	version              string
+	project              string
+	internal_track       string
+	status               string
+	primary_prize_fit    string
+	secondary_fit        string
+	required_pdf         string
+	video_outline        string
+	website              string
+	product_core         string
+	submission_execution string
 }

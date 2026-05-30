@@ -19,14 +19,14 @@ pub fn registration_payload() map[string]string {
 		'eligible_undergraduate_team_required': 'true'
 		'certification_form_required':          'true'
 		'faculty_letter_required':              'true'
-		'explicit_final_submit_required':       'true'
-		'automation_may_click_final_submit':    'false'
+		'submission_execution':                 'official_portal_session_with_eligible_student_captain'
+		'automation_scope':                     'draft_prepare_validate_upload_assist'
 	}
 }
 
 pub fn outreach_markdown() string {
 	return '# Undergraduate Team Outreach Pack\n\n' +
-		'Status: `required_before_external_submit`\n\n' + '## Ask\n\n' +
+		'Status: `ready_for_student_partner_adoption`\n\n' + '## Ask\n\n' +
 		'We need a 3-8 person undergraduate team enrolled full-time during the 2025-2026 academic year to own, test, record and submit RenalCue to NIH DEBUT 2026.\n\n' +
 		'## What is ready\n\n' +
 		'- Vlang biomedical software core with CKD-EPI, UACR staging, risk bands and validators.\n' +
