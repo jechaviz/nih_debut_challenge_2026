@@ -32,8 +32,14 @@ pub:
 
 pub struct JudgeScorecard {
 pub:
-	total    int
-	criteria []JudgeCriterionScore
+	workflow_minutes_saved int
+	followup_rescue        int
+	low_resource_fit       int
+	debut_criteria_score   int
+	niddk_fit              int
+	total                  int
+	total_score            int
+	criteria               []JudgeCriterionScore
 }
 
 pub fn default_impact_model() ImpactModel {
@@ -76,10 +82,25 @@ pub fn judge_scorecard(summary EvaluationSummary, impact ImpactSummary) JudgeSco
 		criterion('Communication and adoption', 10, 8,
 			'Narrative, fact sheet, video plan and no-submit automation.'),
 	]
+	total := weighted_total(criteria)
 	return JudgeScorecard{
-		total:    weighted_total(criteria)
-		criteria: criteria
+		workflow_minutes_saved: impact.minutes_saved_per_day
+		followup_rescue:        impact.referral_rescues_per_100
+		low_resource_fit:       impact.low_resource_fit
+		debut_criteria_score:   total
+		niddk_fit:              impact.niddk_fit
+		total:                  total
+		total_score:            total
+		criteria:               criteria
 	}
+}
+
+pub fn debut_criteria_score(summary EvaluationSummary, impact ImpactSummary) int {
+	return judge_scorecard(summary, impact).debut_criteria_score
+}
+
+pub fn niddk_fit_score(impact ImpactSummary) int {
+	return clamp_percent(impact.niddk_fit)
 }
 
 pub fn competitive_readiness_label(score int) string {
@@ -149,6 +170,16 @@ fn clamp_score(score int) int {
 	}
 	if score > 20 {
 		return 20
+	}
+	return score
+}
+
+fn clamp_percent(score int) int {
+	if score < 0 {
+		return 0
+	}
+	if score > 100 {
+		return 100
 	}
 	return score
 }
