@@ -1,0 +1,7 @@
+*.exe
+*.def
+*.pdb
+*.ilk
+.tmp*
+out/
+tmp/
